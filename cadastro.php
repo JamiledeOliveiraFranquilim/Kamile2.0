@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->execute()) {
         $_SESSION['usuario_id'] = $conn->insert_id;
         $_SESSION['nickname'] = $nickname;
-        header('Location: feed.php');
+        header('Location: home.php');
         exit;
     } else {
         $erro = 'Erro ao cadastrar!' . $conn->error;
