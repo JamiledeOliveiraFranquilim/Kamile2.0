@@ -2,19 +2,23 @@
 session_start();
 require 'conexao.php';
 
+$erro = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome = $_POST['nome'];
+    $nickname = trim($_POST['nickname']);
     $senha = $_POST['senha'];
 
     $stmt = $conn->prepare("SELECT * FROM usuarios WHERE nickname = ?");
-    $stmt->bind_param('s', $nome);
+    $stmt->bind_param('s', $nickname);
     $stmt->execute();
     $resultado = $stmt->get_result();
     $usuario = $resultado->fetch_assoc();
 
-    if ($usuario && password_verify($senha, $usuario['senha'])) {
-        $_SESSION['id_usuarios'] = $usuario['id'];
-        $_SESSION['nickname'] = $usuario['nome'];
+    if ($usuario && password_verify($senha, $usuario['senha_hash'])) {
+        $_SESSION['usuario_id'] = $usuario['id_usuarios'];
+        $_SESSION['nickname'] = $usuario['nickname'];
+        $_SESSION['avatar_url'] = $usuario['avatar_url'];
+
         header('Location: home.php');
         exit;
     } else {
@@ -28,27 +32,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
     <title>Kamile - Login</title>
-    <style>
-        body{
-            padding: 200px 200px;
-        }
-        h1{
-            color: #ff6b6b;
-            text-align: center;
-        }
-    </style>
 </head>
-    <body>
+<body>
     <h1>Kamile</h1>
-        <div class="card">
-            <h2>Entrar</h2>
-            <form method="POST">
-                <input type="nickname" name="nickname" placeholder="Nome" required>
-                <input type="password" name="senha" placeholder="Senha" required>
-                <button type="submit">Entrar</button>
-            </form>
-            <a href="cadastro.php">Criar conta</a>
-            <?php if (!empty($erro)) echo '<p class="erro">'.$erro.'</p>'; ?>
-        </div>
-    </body>
+    <div class="card">
+        <h2>Entrar</h2>
+        <form method="POST">
+            <input type="text" name="nickname" placeholder="Nickname" required>
+            <input type="password" name="senha" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <a href="cadastro.php">Criar conta</a>
+
+        <?php if (!empty($erro)): ?>
+            <div class="erro" style="color: red; margin-top: 10px;">
+                <?= htmlspecialchars($erro) ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</body>
 </html>

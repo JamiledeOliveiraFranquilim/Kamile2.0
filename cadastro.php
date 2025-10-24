@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $check->get_result();
 
     if ($result->num_rows > 0) {
-        echo "<script>alert('Este usuário já existe!'); window.history.back();</script>";
+        $erro = 'Este usuário já existe!' . $conn->error;
         exit;
     }
 
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: feed.php');
         exit;
     } else {
-        $erro = 'Erro ao cadastrar: ' . $conn->error;
+        $erro = 'Erro ao cadastrar!' . $conn->error;
     }
 }
 ?>
@@ -52,7 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit">Cadastrar</button>
         </form>
         <a href="index.php">Logar</a>
-        <?php if (!empty($erro)) echo '<p class="erro">'.$erro.'</p>'; ?>
+        <?php if (!empty($erro)): ?>
+            <div class="erro" style="color: red; margin-top: 10px;">
+                <?= htmlspecialchars($erro) ?>
+            </div>
+        <?php endif; ?>    
     </div>
 
     <script>
@@ -62,28 +66,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const avatarUrl = document.getElementById('avatar_url').value.trim();
             const senha = document.getElementById('senha').value.trim();
 
-            // Validação: nickname obrigatório
             if (!nickname) {
                 alert('O nickname é obrigatório.');
                 e.preventDefault();
                 return;
             }
-
-            // Validação: senha obrigatória e mínimo 4 caracteres
             if (senha.length < 4) {
                 alert('A senha deve ter pelo menos 4 caracteres.');
                 e.preventDefault();
                 return;
             }
-
-            // Validação: bio até 100 caracteres
             if (bio.length > 100) {
                 alert('A biografia deve ter no máximo 100 caracteres.');
                 e.preventDefault();
                 return;
             }
-
-            // Validação: avatar_url deve começar com http
             if (avatarUrl && !avatarUrl.startsWith('http')) {
                 alert('O link do avatar deve começar com "http" ou "https".');
                 e.preventDefault();
