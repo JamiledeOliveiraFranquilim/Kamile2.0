@@ -2,6 +2,10 @@
 session_start();
 require 'conexao.php';
 
+if (!isset($_SESSION['id_usuarios'])) {
+    header('Location: login.php');
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -13,7 +17,10 @@ require 'conexao.php';
 </head>
 <header>
     <nav>
-        <p><?php echo "Olá " . $nome?></p>
+        <h1>Kamile</h1>
+        <?php if ($_SESSION['id_usuarios']): ?>
+            <span>Olá, <?= htmlspecialchars($_SESSION['nickname'] ?? '') ?></span>
+        <?php else: ?>
         <ul>
             <li a href="perfil.php">Post</a></li>
             <li a href="feed.php">Feed</a></li>
@@ -23,6 +30,5 @@ require 'conexao.php';
 </nav>
 </header>
 <body>
-    <h1>Bem vindo ao Kamile!</h1>
 </body>
 </html>
