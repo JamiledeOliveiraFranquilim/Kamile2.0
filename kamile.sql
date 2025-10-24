@@ -40,10 +40,13 @@ CREATE TABLE `curtidas` (
 --
 
 CREATE TABLE `posts` (
-  `id_post` int(11) NOT NULL,
+  `id_post` int(11) NOT NULL AUTO_INCREMENT,
   `fk_id_usuario` int(11) NOT NULL,
   `conteudo` varchar(200) NOT NULL,
-  `data_post` datetime DEFAULT current_timestamp()
+  `data_post` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id_post`),
+  KEY `fk_id_usuario` (`fk_id_usuario`),
+  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`fk_id_usuario`) REFERENCES `usuarios` (`id_usuarios`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
