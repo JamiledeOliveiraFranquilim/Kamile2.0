@@ -31,7 +31,7 @@ if (!$result) die("Erro na consulta: " . $conn->error);
             <a href="logout.php"><button>Sair</button></a>
         <?php else: ?>
             <a href="login.php"><button>Entrar</button></a>
-            <a href="register.php"><button class="register">Cadastrar</button></a>
+            <a href="cadastrar.php"><button class="register">Cadastrar</button></a>
         <?php endif; ?>
     </div>
 </header>

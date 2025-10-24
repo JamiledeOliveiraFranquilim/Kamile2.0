@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <button type="submit">Entrar</button>
                 </form>
-                <a href="cadastro.php">Criar conta</a>
+                <a href="cadastrar.php">Criar conta</a>
 
                 <?php if (!empty($erro)): ?>
                     <div class="erro"><?= htmlspecialchars($erro) ?></div>
