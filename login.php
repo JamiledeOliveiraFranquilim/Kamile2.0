@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $resultado->fetch_assoc();
 
     if ($usuario && password_verify($senha, $usuario['senha_hash'])) {
-        $_SESSION['id_usuario'] = $usuario['id_usuarios'];
+        $_SESSION['id_usuarios'] = $usuario['id_usuarios'];
         $_SESSION['nickname'] = $usuario['nickname'];
         $_SESSION['avatar_url'] = $usuario['avatar_url'];
         header('Location: feed.php');

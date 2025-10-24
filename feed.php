@@ -2,6 +2,7 @@
 session_start();
 require 'conexao.php';
 
+// Verifica se o usuário está logado
 if (!isset($_SESSION['id_usuarios'])) {
     header('Location: login.php');
     exit;
@@ -9,7 +10,7 @@ if (!isset($_SESSION['id_usuarios'])) {
 
 $uid = $_SESSION['id_usuarios'];
 
-// Nova postagem
+// Publicar novo post
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['conteudo'])) {
     $conteudo = trim($_POST['conteudo']);
     $imagem = null;
@@ -21,13 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['conteudo'])) {
         move_uploaded_file($_FILES['imagem']['tmp_name'], $imagem);
     }
 
-    $stmt = $conn->prepare("INSERT INTO posts (fk_id_usuario, conteudo, data_post) VALUES (?, ?, NOW())");
-    $stmt->bind_param('is', $uid, $conteudo);
+    $stmt = $conn->prepare("INSERT INTO posts (fk_id_usuario, conteudo, imagem, data_post) VALUES (?, ?, ?, NOW())");
+    $stmt->bind_param('iss', $uid, $conteudo, $imagem);
     $stmt->execute();
+    header('Location: feed.php'); // evita repost ao atualizar
+    exit;
 }
 
+// Buscar posts
 $postagens = $conn->query("
-    SELECT p.id_post, p.conteudo, p.data_post, u.nickname, u.avatar_url
+    SELECT p.id_post, p.conteudo, p.imagem, p.data_post, u.nickname, u.avatar_url
     FROM posts p
     JOIN usuarios u ON p.fk_id_usuario = u.id_usuarios
     ORDER BY p.data_post DESC
@@ -38,100 +42,44 @@ $postagens = $conn->query("
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feed</title>
+    <title>Feed - Kamile</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f3f3f3;
-            margin: 0;
-        }
-        header {
-            background: #0082ca;
-            color: #fff;
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        header h1 { margin: 0; }
-        main {
-            max-width: 600px;
-            margin: 30px auto;
-            background: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .post {
-            border-bottom: 1px solid #ddd;
-            padding: 15px 0;
-        }
-        .post:last-child { border: none; }
-        .post-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .acoes form, .acoes button {
-            display: inline-block;
-            margin-right: 10px;
-        }
-        .comentarios {
-            margin-top: 10px;
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: 8px;
-        }
-        .comentario {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-        .comentario .avatar-mini {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .nova textarea {
-            width: 100%;
-            height: 80px;
-            resize: none;
-            margin-bottom: 10px;
-        }
-        .nova input[type="file"] {
-            margin-bottom: 10px;
-        }
-        .nova button {
-            background: #0082ca;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .nova button:hover {
-            background: #006fa1;
-        }
+        body { font-family: Arial, sans-serif; background:#f3f3f3; margin:0; }
+        header { background:#0082ca; color:white; padding:15px 40px; display:flex; justify-content:space-between; align-items:center; }
+        header h1 { margin:0; }
+        nav a { color:white; margin-right:15px; text-decoration:none; }
+        main { max-width:700px; margin:30px auto; }
+        .nova { background:white; padding:20px; border-radius:10px; margin-bottom:20px; }
+        .nova textarea { width:100%; height:80px; margin-bottom:10px; }
+        .nova input[type="file"] { margin-bottom:10px; }
+        .nova button { padding:10px 20px; background:#0082ca; color:white; border:none; border-radius:5px; cursor:pointer; }
+        .feed .post { background:white; padding:15px; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+        .post-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+        .avatar { width:45px; height:45px; border-radius:50%; object-fit:cover; }
+        .imgpost { max-width:100%; border-radius:10px; margin-top:10px; }
+        .acoes { margin-top:10px; }
+        .acoes button { background:none; border:none; cursor:pointer; font-size:1rem; }
+        .comentarios { margin-top:15px; background:#f9f9f9; padding:10px; border-radius:8px; }
+        .comentario { display:flex; gap:8px; margin-bottom:8px; }
+        .avatar-mini { width:30px; height:30px; border-radius:50%; object-fit:cover; }
+        .comentario div { font-size:0.9rem; }
+        .comentario div strong { font-size:0.95rem; }
+        .comentarios form textarea { width:100%; height:50px; margin-top:5px; margin-bottom:5px; }
+        .comentarios form button { padding:5px 10px; background:#0082ca; color:white; border:none; border-radius:5px; cursor:pointer; }
     </style>
 </head>
 <body>
 <header>
     <h1>Kamile</h1>
     <nav>
-        <a href="home.php" style="color:white; margin-right:15px;">Home</a>
-        <a href="perfil.php" style="color:white; margin-right:15px;">Perfil</a>
-        <a href="logout.php" style="color:white;">Sair</a>
+        <a href="home.php">Home</a>
+        <a href="perfil.php">Perfil</a>
+        <a href="logout.php">Sair</a>
     </nav>
 </header>
 
 <main>
+    <!-- Nova Publicação -->
     <section class="nova">
         <h2>Nova Publicação</h2>
         <form method="POST" enctype="multipart/form-data">
@@ -141,9 +89,9 @@ $postagens = $conn->query("
         </form>
     </section>
 
+    <!-- Feed -->
     <section class="feed">
-        <?php while($p = $postagens->fetch_assoc()): ?>
-            <?php
+        <?php while($p = $postagens->fetch_assoc()): 
             $post_id = $p['id_post'];
 
             // Contar curtidas
@@ -165,8 +113,7 @@ $postagens = $conn->query("
             $qComentarios->bind_param('i', $post_id);
             $qComentarios->execute();
             $comentarios = $qComentarios->get_result();
-            ?>
-            
+        ?>
             <div class="post">
                 <div class="post-header">
                     <img src="<?= htmlspecialchars($p['avatar_url'] ?: 'default.jpg') ?>" class="avatar">
@@ -177,6 +124,10 @@ $postagens = $conn->query("
                 </div>
 
                 <p><?= nl2br(htmlspecialchars($p['conteudo'])) ?></p>
+
+                <?php if($p['imagem']): ?>
+                    <img src="<?= htmlspecialchars($p['imagem']) ?>" class="imgpost">
+                <?php endif; ?>
 
                 <div class="acoes">
                     <form method="POST" action="curtir.php">
