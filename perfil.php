@@ -2,12 +2,12 @@
 session_start();
 require 'conexao.php';
 
-if (!isset($_SESSION['id_usuario'])) {
+if (!isset($_SESSION['id_usuarios'])) {
     header('Location: login.php');
     exit;
 }
 
-$uid = $_SESSION['id_usuario'];
+$uid = $_SESSION['id_usuarios'];
 $erro = '';
 $sucesso = '';
 
