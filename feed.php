@@ -44,8 +44,66 @@ $postagens = $conn->query("
 <title>Feed - Kamile</title>
 <style>
     body { font-family: 'Poppins', sans-serif; background: #f8f9fb; margin:0; color:#333; }
-    header { background:#fff; padding:15px 30px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
-    header h1 { color:#e56b70; font-weight:600; margin:0; }
+
+header {
+    background:#fff; 
+    padding:15px 30px; 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center; 
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    color:#e56b70; 
+    font-weight:600; 
+    margin:0;
+}
+
+.nav-bar {
+    display:flex; 
+    align-items:center; 
+    gap:20px;
+}
+
+.saudacao {
+    font-weight:500;
+    color:#333;
+}
+
+.menu {
+    list-style:none;
+    display:flex;
+    gap:15px;
+    margin:0;
+    padding:0;
+}
+
+.menu li {
+    display:inline;
+}
+
+.menu a {
+    text-decoration:none;
+    color:#e56b70;
+    font-weight:500;
+    padding:6px 12px;
+    border-radius:6px;
+    transition:0.3s;
+}
+
+.menu a:hover {
+    background:#f7d0d2;
+}
+
+.btn-sair {
+    background:#e56b70;
+    color:white !important;
+}
+
+.btn-sair:hover {
+    background:#d4585d;
+}
     .auth-buttons button { margin-left:10px; background:#e56b70; color:white; border:none; border-radius:6px; padding:8px 14px; cursor:pointer; transition:0.3s; }
     .auth-buttons button:hover { background:#d4585d; }
 
@@ -77,12 +135,16 @@ $postagens = $conn->query("
 <body>
 <header>
     <h1>Kamile</h1>
-    <div class="auth-buttons">
-        <span>Olá, <?= htmlspecialchars($_SESSION['nickname'] ?? '') ?></span>
-        <li><a href="perfil.php">Perfil</a></li>
-        <a href="logout.php"><button>Sair</button></a>
-    </div>
+    <nav class="nav-bar">
+        <span class="saudacao">Olá, <?= htmlspecialchars($_SESSION['nickname'] ?? '') ?></span>
+        <ul class="menu">
+            <li><a href="home.php">Home</a></li>
+            <li><a href="perfil.php">Perfil</a></li>
+            <li><a href="logout.php" class="btn-sair">Sair</a></li>
+        </ul>
+    </nav>
 </header>
+
 
 <main class="feed">
     <!-- Nova Publicação -->

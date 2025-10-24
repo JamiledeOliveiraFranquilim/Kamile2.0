@@ -13,81 +13,66 @@ if (!isset($_SESSION['id_usuarios'])) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Home - Kamile</title>
-<style>
-body {
-    font-family: 'Poppins', sans-serif;
-    background: #f8f9fb;
-    margin: 0;
-    color: #333;
-}
+<style>body { font-family: 'Poppins', sans-serif; background: #f8f9fb; margin:0; color:#333; }
 
-/* Header */
 header {
-    background: #fff;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    background:#fff; 
+    padding:15px 30px; 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center; 
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
 header h1 {
-    color: #e56b70;
-    font-weight: 600;
-    margin: 0;
+    color:#e56b70; 
+    font-weight:600; 
+    margin:0;
 }
 
-header nav {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.nav-bar {
+    display:flex; 
+    align-items:center; 
+    gap:20px;
 }
 
-header nav span {
-    font-weight: 500;
-    color: #555;
+.saudacao {
+    font-weight:500;
+    color:#333;
 }
 
-header nav ul {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-    margin: 0;
-    padding: 0;
+.menu {
+    list-style:none;
+    display:flex;
+    gap:15px;
+    margin:0;
+    padding:0;
 }
 
-header nav ul li a {
-    text-decoration: none;
-    color: #e56b70;
-    font-weight: 500;
-    transition: 0.3s;
+.menu li {
+    display:inline;
 }
 
-header nav ul li a:hover {
-    color: #d4585d;
+.menu a {
+    text-decoration:none;
+    color:#e56b70;
+    font-weight:500;
+    padding:6px 12px;
+    border-radius:6px;
+    transition:0.3s;
 }
 
-/* Main Card */
-main {
-    max-width: 700px;
-    margin: 50px auto;
-    padding: 30px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+.menu a:hover {
+    background:#f7d0d2;
 }
 
-main h2 {
-    color: #e56b70;
-    margin-top: 0;
+.btn-sair {
+    background:#e56b70;
+    color:white !important;
 }
 
-main p {
-    font-size: 1rem;
-    line-height: 1.6;
+.btn-sair:hover {
+    background:#d4585d;
 }
 </style>
 </head>
@@ -95,15 +80,16 @@ main p {
 
 <header>
     <h1>Kamile</h1>
-    <nav>
-        <span>Olá, <?= htmlspecialchars($_SESSION['nickname'] ?? '') ?></span>
-        <ul>
+    <nav class="nav-bar">
+        <span class="saudacao">Olá, <?= htmlspecialchars($_SESSION['nickname'] ?? '') ?></span>
+        <ul class="menu">
             <li><a href="feed.php">Feed</a></li>
             <li><a href="perfil.php">Perfil</a></li>
-            <li><a href="logout.php">Sair</a></li>
+            <li><a href="logout.php" class="btn-sair">Sair</a></li>
         </ul>
     </nav>
 </header>
+
 
 <main>
     <h2>Bem-vindo ao Kamile!</h2>

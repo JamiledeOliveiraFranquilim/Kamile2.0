@@ -49,8 +49,8 @@ if (!$result) die("Erro na consulta: " . $conn->error);
             </div>
 
             <p class="content"><?= htmlspecialchars($post['conteudo']) ?></p>
-            <?php if ($post['imagem_url']): ?>
-                <img src="<?= htmlspecialchars($post['imagem_url']) ?>" class="post-img">
+            <?php if ($post['imagem']): ?>
+                <img src="<?= htmlspecialchars($post['imagem']) ?>" class="post-img">
             <?php endif; ?>
             <small><?= date('d/m/Y H:i', strtotime($post['data_post'])) ?></small>
 
