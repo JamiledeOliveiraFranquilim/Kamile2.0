@@ -27,7 +27,7 @@ if (!$result) die("Erro na consulta: " . $conn->error);
     <h1>Kamile</h1>
     <div class="auth-buttons">
         <?php if ($logado): ?>
-            <span>Olá, <?= htmlspecialchars($_SESSION['nickname'] ?? '') ?> 👋</span>
+            <span>Olá, <?= htmlspecialchars($_SESSION['nickname'] ?? '') ?></span>
             <a href="logout.php"><button>Sair</button></a>
         <?php else: ?>
             <a href="login.php"><button>Entrar</button></a>

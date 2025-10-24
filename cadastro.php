@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param('ssss', $nickname, $bio, $avatar_url, $senha);
 
     if ($stmt->execute()) {
-        $_SESSION['usuario_id'] = $conn->insert_id;
+        $_SESSION['id_usuarios'] = $conn->insert_id;
         $_SESSION['nickname'] = $nickname;
         header('Location: home.php');
         exit;
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" name="senha" id="senha" placeholder="Senha" required>
             <button type="submit">Cadastrar</button>
         </form>
-        <a href="index.php">Logar</a>
+        <a href="login.php">Logar</a>
         <?php if (!empty($erro)): ?>
             <div class="erro" style="color: red; margin-top: 10px;">
                 <?= htmlspecialchars($erro) ?>
