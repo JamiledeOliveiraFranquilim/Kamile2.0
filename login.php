@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['id_usuario'] = $usuario['id_usuarios'];
         $_SESSION['nickname'] = $usuario['nickname'];
         $_SESSION['avatar_url'] = $usuario['avatar_url'];
-
         header('Location: feed.php');
         exit;
     } else {
@@ -26,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <button type="submit">Entrar</button>
                 </form>
-                <a href="cadastro.php">Criar conta</a>
+                <a href="cadastrar.php">Criar conta</a>
 
                 <?php if (!empty($erro)): ?>
                     <div class="erro"><?= htmlspecialchars($erro) ?></div>
