@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['id_usuarios'] = $usuario['id_usuarios'];
         $_SESSION['nickname'] = $usuario['nickname'];
         $_SESSION['avatar_url'] = $usuario['avatar_url'];
-        header('Location: feed.php');
+        header('Location: home.php');
         exit;
     } else {
         $erro = 'Login inválido!';

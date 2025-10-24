@@ -82,7 +82,7 @@ if (!$result) die("Erro na consulta: " . $conn->error);
         <p>Para curtir ou comentar, você precisa estar logado.</p>
         <div class="modal-buttons">
             <a href="login.php"><button>Entrar</button></a>
-            <a href="register.php"><button class="register">Cadastrar</button></a>
+            <a href="cadastrar.php"><button class="register">Cadastrar</button></a>
         </div>
     </div>
 </div>
