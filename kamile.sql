@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24-Out-2025 às 16:56
+-- Tempo de geração: 24-Out-2025 às 18:31
 -- Versão do servidor: 10.4.27-MariaDB
 -- versão do PHP: 8.2.0
 
@@ -68,7 +68,8 @@ CREATE TABLE `posts` (
 
 INSERT INTO `posts` (`id_post`, `fk_id_usuario`, `conteudo`, `data_post`, `email`, `imagem`) VALUES
 (1, 3, 'ggjgj', '2025-10-24 11:49:18', NULL, NULL),
-(2, 3, 'sfcsdv', '2025-10-24 11:54:23', NULL, NULL);
+(2, 3, 'sfcsdv', '2025-10-24 11:54:23', NULL, NULL),
+(3, 3, 'A vida', '2025-10-24 12:16:11', NULL, 'uploads/user.jpg');
 
 -- --------------------------------------------------------
 
@@ -139,13 +140,13 @@ ALTER TABLE `comentarios`
 -- AUTO_INCREMENT de tabela `curtidas`
 --
 ALTER TABLE `curtidas`
-  MODIFY `id_curtida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_curtida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
